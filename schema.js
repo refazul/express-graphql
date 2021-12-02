@@ -2,15 +2,15 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
 const { Product } = require('./data');
 
 const resolvers = {
-    Query: {
-        getProduct: (root, { id }) => Product.findOne(id),
-        getProducts: (root, param) => Product.find(param)
-    },
-    Mutation: {
-        createProduct: (root, { input }) => Product.create(input),
-        updateProduct: (root, { input }) => Product.update(input),
-        removeProduct: (root, { id }) => Product.remove(id)
-    },
+	Query: {
+		getProduct: (root, { id }) => Product.findOne(id),
+		getProducts: (root, param) => Product.find(param)
+	},
+	Mutation: {
+		createProduct: (root, { input }) => Product.create(input),
+		updateProduct: (root, { input }) => Product.update(input),
+		removeProduct: (root, { id }) => Product.remove(id)
+	},
 };
 
 const typeDefs = `
@@ -45,20 +45,20 @@ module.exports = { schema };
 
 /*
 mutation {
-    createProduct(input: {
-        title: "RTX 3070"
-        description: "LHR"
-        category: "GPU"
-        price: 1000
-    }) {
-        title
-        description
-    }
+	createProduct(input: {
+		title: "RTX 3070"
+		description: "LHR"
+		category: "GPU"
+		price: 1000
+	}) {
+		title
+		description
+	}
 }
 query {
-    getProducts {
-        title
-        description
-    }
+	getProducts {
+		title
+		description
+	}
 }
 */
