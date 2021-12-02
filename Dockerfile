@@ -5,7 +5,6 @@ RUN npm install
 
 COPY data/* /app/data/
 COPY *.js /app/
-COPY .env /app/.env
 EXPOSE 8080
 CMD [ "node", "server.js" ]
 
