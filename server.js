@@ -9,11 +9,7 @@ const { schema } = require('./schema');
 
 const app = express();
 
-app.get('/', (req, res) => {
-	res.send('Graphql is amazing!');
-});
-
-app.use('/graphql', graphqlHTTP({
+app.use('/', graphqlHTTP({
 	schema: schema,
 	graphiql: true,
 }));

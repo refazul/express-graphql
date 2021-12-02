@@ -9,4 +9,5 @@ EXPOSE 8080
 CMD [ "node", "server.js" ]
 
 # docker build . -t refazul/express-graphql
-# docker run -dit -p 8000:8080 --name test refazul/express-graphql
+# docker run -dit -p 8000:8080 --name test --env-file .env refazul/express-graphql
+# docker image prune

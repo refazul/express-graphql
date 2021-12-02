@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
 
-// Mongo connection
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://' + process.env.db_user_mongodb + ':' + process.env.db_pass_mongodb + '@' + process.env.db_host + ':' + process.env.db_port_mongodb + '/' + process.env.db_name_mongodb + '?authSource=admin&readPreference=primary&directConnection=true&ssl=false', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-});
+if (process.env.db_engine == 'mongodb') {
+	mongoose.Promise = global.Promise;
+	mongoose.connect('mongodb://' + process.env.db_user_mongodb + ':' + process.env.db_pass_mongodb + '@' + process.env.db_host + ':' + process.env.db_port_mongodb + '/' + process.env.db_name_mongodb + '?authSource=admin&readPreference=primary&directConnection=true&ssl=false', {
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	});
 
-const ProductSchema = mongoose.model('Product', {
-	title: String,
-	description: String,
-	category: String,
-	price: Number
-});
+	global.mongodb = mongoose.model('Product', {
+		title: String,
+		description: String,
+		category: String,
+		price: Number
+	});
+}
+const ProductSchema = global.mongodb;
 
 const Product = {
 	find: (param) => {
@@ -67,4 +69,4 @@ const Product = {
 	}
 }
 
-module.exports = { Product }
+module.exports = { MongoProduct: Product }

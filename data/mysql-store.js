@@ -1,18 +1,21 @@
 const mysql = require('mysql');
 
-const con = mysql.createConnection({
-	host: process.env.db_host,
-	port: process.env.db_port_mysql,
-	user: process.env.db_user_mysql,
-	password: process.env.db_pass_mysql,
-	database: process.env.db_name_mysql
-});
+if (process.env.db_engine == 'mysql') {
+	global.mysql = mysql.createConnection({
+		host: process.env.db_host,
+		port: process.env.db_port_mysql,
+		user: process.env.db_user_mysql,
+		password: process.env.db_pass_mysql,
+		database: process.env.db_name_mysql
+	});
+}
+const db = global.mysql;
 
 const Product = {
 	find: (param) => {
 		return new Promise((resolve, reject) => {
-			con.query('SELECT * FROM products', [], function (err, results) {
-				con.end();
+			db.query('SELECT * FROM products', [], function (err, results) {
+				db.end();
 				if (err) reject(err)
 				resolve(results);
 			});
@@ -20,8 +23,8 @@ const Product = {
 	},
 	findOne: (id) => {
 		return new Promise((resolve, reject) => {
-			con.query('SELECT * FROM products WHERE id = ?', [id], function (err, result) {
-				con.end();
+			db.query('SELECT * FROM products WHERE id = ?', [id], function (err, result) {
+				db.end();
 				if (err) reject(err)
 				resolve(result);
 			});
@@ -29,8 +32,8 @@ const Product = {
 	},
 	create: (input) => {
 		return new Promise((resolve, reject) => {
-			con.query('INSERT INTO products SET ?', input, function (err, result) {
-				con.end();
+			db.query('INSERT INTO products SET ?', input, function (err, result) {
+				db.end();
 				if (err) reject(err)
 				resolve(input);
 			});
@@ -48,8 +51,8 @@ const Product = {
 				sets.push(i + ' = ?');
 				values.push(input[i]);
 			}
-			con.query('UPDATE products SET ' + sets.join(', ') + ' WHERE id = ?', [].concat(values).concat(input.id), function (err, result) {
-				con.end();
+			db.query('UPDATE products SET ' + sets.join(', ') + ' WHERE id = ?', [].concat(values).concat(input.id), function (err, result) {
+				db.end();
 				if (err) reject(err)
 				resolve(input);
 			});
@@ -57,8 +60,8 @@ const Product = {
 	},
 	remove: (id) => {
 		return new Promise((resolve, reject) => {
-			con.query('DELETE FROM products WHERE id = ?', [id], function (err, result) {
-				con.end();
+			db.query('DELETE FROM products WHERE id = ?', [id], function (err, result) {
+				db.end();
 				if (err) reject(err)
 				resolve(id);
 			});
@@ -66,4 +69,4 @@ const Product = {
 	}
 }
 
-module.exports = { Product }
+module.exports = { MysqlProduct: Product }
