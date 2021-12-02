@@ -6,13 +6,61 @@ const pool = new Pool({
 	user: process.env.db_user,
 	password: process.env.db_pass,
 	database: process.env.db_name
-})
+});
 
-pool.query('SELECT NOW()', (err, res) => {
-	console.log(err, res)
-	pool.end()
-})
+const Product = {
+	find: (param) => {
+		return new Promise((resolve, reject) => {
+			pool.query('SELECT * FROM products', [], function (err, results) {
+				if (err) reject(err)
+				resolve(results.rows);
+			});
+		});
+	},
+	findOne: (id) => {
+		return new Promise((resolve, reject) => {
+			pool.query('SELECT * FROM products WHERE id = $1', [id], function (err, result) {
+				if (err) reject(err);
+				resolve(result.rows[0]);
+			});
+		})
+	},
+	create: (input) => {
+		return new Promise((resolve, reject) => {
+			pool.query('INSERT INTO products(title, description, category, price) VALUES($1, $2, $3, $4)', [input.title, input.description, input.category, input.price], function (err, result) {
+				if (err) reject(err)
+				resolve(input);
+			});
+		})
 
-const Product = {}
+	},
+	update: (input) => {
+		return new Promise((resolve, reject) => {
+			var fields = [];
+			var sets = [];
+			var values = [];
+			var counter = 1;
+			for (var i in input) {
+				if (i == 'id') continue;
+				fields.push(i);
+				sets.push(i + ' = $' + counter++);
+				values.push(input[i]);
+			}
+			console.log('UPDATE products SET ' + sets.join(', ') + ' WHERE id = $' + counter);
+			pool.query('UPDATE products SET ' + sets.join(', ') + ' WHERE id = $' + counter, [].concat(values).concat(input.id), function (err, result) {
+				if (err) reject(err)
+				resolve(input);
+			});
+		})
+	},
+	remove: (id) => {
+		return new Promise((resolve, reject) => {
+			pool.query('DELETE FROM products WHERE id = $1', [id], function (err, result) {
+				if (err) reject(err)
+				resolve(id);
+			});
+		})
+	}
+}
 
 module.exports = { Product }

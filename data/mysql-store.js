@@ -23,7 +23,7 @@ const Product = {
 			con.query('SELECT * FROM products WHERE id = ?', [id], function (err, result) {
 				con.end();
 				if (err) reject(err)
-				resolve(results);
+				resolve(result);
 			});
 		})
 	},

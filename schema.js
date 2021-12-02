@@ -55,8 +55,29 @@ mutation {
 		description
 	}
 }
+mutation {
+	updateProduct(input: {
+		id: 1
+		title: "RTX 3070"
+		description: "LHR"
+		category: "GPU"
+		price: 1000
+	}) {
+		title
+		description
+	}
+}
+mutation {
+	removeProduct(id: 1)
+}
 query {
 	getProducts {
+		title
+		description
+	}
+}
+query {
+	getProduct(id:1) {
 		title
 		description
 	}
