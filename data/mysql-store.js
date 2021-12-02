@@ -2,10 +2,10 @@ const mysql = require('mysql');
 
 const con = mysql.createConnection({
 	host: process.env.db_host,
-	port: process.env.db_port,
-	user: process.env.db_user,
-	password: process.env.db_pass,
-	database: process.env.db_name
+	port: process.env.db_port_mysql,
+	user: process.env.db_user_mysql,
+	password: process.env.db_pass_mysql,
+	database: process.env.db_name_mysql
 });
 
 const Product = {

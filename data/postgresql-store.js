@@ -2,10 +2,10 @@ const Pool = require('pg').Pool
 
 const pool = new Pool({
 	host: process.env.db_host,
-	port: process.env.db_port,
-	user: process.env.db_user,
-	password: process.env.db_pass,
-	database: process.env.db_name
+	port: process.env.db_port_postgresql,
+	user: process.env.db_user_postgresql,
+	password: process.env.db_pass_postgresql,
+	database: process.env.db_name_postgresql
 });
 
 const Product = {
